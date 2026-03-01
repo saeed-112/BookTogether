@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookTogether — Travel Together, Save Together</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand: #F5EFE4;
+    --deep: #1A1A2E;
+    --terracotta: #C2704A;
+    --gold: #E8B86D;
+    --teal: #2A7C76;
+    --cream: #FDF8F2;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--deep);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(253,248,242,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(194,112,74,0.12);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--terracotta);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--teal); font-style: italic; }
+  .nav-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    background: var(--teal);
+    padding: 0.55rem 1.4rem;
+    border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 16px rgba(42,124,118,0.35);
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover {
+    background: #226660;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(42,124,118,0.45);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 3rem 4rem;
+    gap: 4rem;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(232,184,109,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { position: relative; }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    background: rgba(194,112,74,0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(26,26,46,0.65);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .cta-row {
+    display: flex; gap: 1rem; align-items: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--terracotta);
+    color: white;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(194,112,74,0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(194,112,74,0.45);
+  }
+  .btn-ghost {
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--deep); opacity: 0.5;
+    cursor: pointer; background: none; border: none;
+    transition: opacity 0.2s;
+  }
+  .btn-ghost:hover { opacity: 1; }
+
+  /* HERO IMAGE */
+  .hero-visual {
+    position: relative;
+    animation: fadeIn 1s 0.2s ease both;
+  }
+  .image-card {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 32px 80px rgba(26,26,46,0.18);
+  }
+  /* SVG illustration fallback — globe with people */
+  .image-card svg {
+    width: 100%; height: 100%;
+  }
+
+  .float-badge {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 0.75rem 1.1rem;
+    box-shadow: 0 8px 32px rgba(26,26,46,0.12);
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.78rem; font-weight: 500;
+  }
+  .float-badge .icon { font-size: 1.2rem; }
+  .badge-savings {
+    bottom: -1.5rem; left: -1.5rem;
+    animation: float 3s ease-in-out infinite;
+  }
+  .badge-connected {
+    top: 1.5rem; right: -1.5rem;
+    animation: float 3s 1.5s ease-in-out infinite;
+  }
+  .badge-num { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--terracotta); }
+
+  /* TAGLINE SECTION */
+  .tagline-section {
+    background: var(--deep);
+    color: white;
+    padding: 6rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .tagline-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(42,124,118,0.25) 0%, transparent 70%);
+  }
+  .tagline-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    line-height: 1.25;
+    letter-spacing: -1px;
+    max-width: 820px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+  .tagline-section h2 em { color: var(--gold); font-style: italic; }
+  .tagline-section p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* STEPS */
+  .steps-section {
+    padding: 7rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .steps-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+  .steps-header .label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .steps-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    letter-spacing: -0.8px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    left: 12.5%;
+    width: 75%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--terracotta), var(--gold), var(--teal), transparent);
+    opacity: 0.4;
+  }
+
+  .step {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+  .step-num {
+    width: 3.5rem; height: 3.5rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+    transition: transform 0.3s;
+  }
+  .step:nth-child(1) .step-num { background: rgba(194,112,74,0.12); color: var(--terracotta); border: 2px solid rgba(194,112,74,0.3); }
+  .step:nth-child(2) .step-num { background: rgba(232,184,109,0.15); color: #C08A40; border: 2px solid rgba(232,184,109,0.3); }
+  .step:nth-child(3) .step-num { background: rgba(42,124,118,0.1); color: var(--teal); border: 2px solid rgba(42,124,118,0.25); }
+  .step:nth-child(4) .step-num { background: rgba(26,26,46,0.07); color: var(--deep); border: 2px solid rgba(26,26,46,0.15); }
+  .step:hover .step-num { transform: scale(1.15); }
+
+  .step-icon { font-size: 1.4rem; }
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.3px;
+  }
+  .step p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(26,26,46,0.55);
+    font-weight: 300;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    font-size: 0.8rem;
+    color: rgba(26,26,46,0.35);
+    border-top: 1px solid rgba(26,26,46,0.08);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
+    .steps-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .steps-grid::before { display: none; }
+    .badge-savings { left: 0; }
+    .badge-connected { right: 0; }
+    nav { padding: 1rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Book<span>Together</span></div>
+  <a href="#waitlist" class="nav-cta">Join the waitlist →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-tag">✈ Travel smarter together</span>
+    <h1>See the world.<br><em>Share the cost.</em><br>Make friends.</h1>
+    <p class="hero-sub">
+      BookTogether connects solo travelers from across the globe so you can split costs, share experiences, and discover destinations you never thought you could afford.
+    </p>
+    <div class="cta-row">
+      <button class="btn-primary">Start exploring →</button>
+      <button class="btn-ghost" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">See how it works ↓</button>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="image-card">
+      <!-- Illustrated SVG: globe with traveler avatars connecting -->
+      <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Ocean gradient -->
+          <radialGradient id="oceanGrad" cx="45%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#1B4F8A"/>
+            <stop offset="60%" stop-color="#0D3060"/>
+            <stop offset="100%" stop-color="#081828"/>
+          </radialGradient>
+          <!-- Globe clip -->
+          <clipPath id="globeClip">
+            <circle cx="300" cy="225" r="155"/>
+          </clipPath>
+          <!-- Atmosphere glow -->
+          <radialGradient id="atmosphereGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="80%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(100,180,255,0.18)"/>
+          </radialGradient>
+          <!-- Globe shine -->
+          <radialGradient id="shineGrad" cx="35%" cy="30%" r="45%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Background space -->
+        <rect width="600" height="450" fill="#0A0E1A"/>
+        <!-- Stars -->
+        <circle cx="48" cy="35" r="1.1" fill="white" opacity="0.6"/>
+        <circle cx="155" cy="72" r="0.7" fill="white" opacity="0.45"/>
+        <circle cx="545" cy="55" r="1" fill="white" opacity="0.5"/>
+        <circle cx="490" cy="28" r="1.4" fill="white" opacity="0.35"/>
+        <circle cx="325" cy="18" r="0.9" fill="white" opacity="0.55"/>
+        <circle cx="75" cy="390" r="0.8" fill="white" opacity="0.3"/>
+        <circle cx="555" cy="395" r="1" fill="white" opacity="0.4"/>
+        <circle cx="22" cy="200" r="0.7" fill="white" opacity="0.35"/>
+        <circle cx="578" cy="180" r="0.9" fill="white" opacity="0.4"/>
+        <circle cx="420" cy="410" r="0.8" fill="white" opacity="0.3"/>
+
+        <!-- Atmosphere outer ring -->
+        <circle cx="300" cy="225" r="162" fill="none" stroke="rgba(100,180,255,0.2)" stroke-width="6"/>
+
+        <!-- Ocean base -->
+        <circle cx="300" cy="225" r="155" fill="url(#oceanGrad)"/>
+
+        <!-- === CONTINENTS (clipped to globe) === -->
+        <g clip-path="url(#globeClip)">
+
+          <!-- Grid lines — latitude -->
+          <ellipse cx="300" cy="225" rx="155" ry="46" fill="none" stroke="rgba(100,180,255,0.1)" stroke-width="0.8"/>
+          <ellipse cx="300" cy="225" rx="155" ry="100" fill="none" stroke="rgba(100,180,255,0.08)" stroke-width="0.8"/>
+          <ellipse cx="300" cy="225" rx="155" ry="140" fill="none" stroke="rgba(100,180,255,0.06)" stroke-width="0.8"/>
+          <!-- Grid lines — longitude -->
+          <line x1="300" y1="70" x2="300" y2="380" stroke="rgba(100,180,255,0.08)" stroke-width="0.8"/>
+          <line x1="145" y1="225" x2="455" y2="225" stroke="rgba(100,180,255,0.08)" stroke-width="0.8"/>
+          <path d="M195,88 Q300,70 405,88 Q455,225 405,362 Q300,380 195,362 Q145,225 195,88Z" fill="none" stroke="rgba(100,180,255,0.06)" stroke-width="0.8"/>
+
+          <!-- NORTH AMERICA -->
+          <path d="
+            M215,110 L240,105 L258,110 L268,118 L272,130
+            L262,138 L258,150 L268,165 L275,180
+            L270,195 L260,205 L248,210
+            L238,218 L230,228 L222,240
+            L215,250 L208,258 L202,265
+            L195,272 L190,280 L192,290
+            L198,295 L205,290 L215,285
+            L225,280 L230,270 L238,265
+            L242,272 L238,282 L230,290
+            L220,295 L210,300 L205,310
+            L208,320 L215,328 L228,330
+            L225,300 L232,295
+            L240,300 L245,310 L242,320
+            L248,325 L255,318 L260,308
+            L265,298 L270,288 L278,282
+            L285,278 L290,285 L288,295
+            L282,305 L280,315
+            L275,280 L268,272
+            L270,262 L278,255
+            L285,248 L288,235 L282,225
+            L275,215 L278,205 L285,198
+            L290,188 L285,178 L278,170
+            L272,158 L268,145 L262,135
+            L268,125 L275,118 L268,110
+            L258,105 L248,100 L235,102
+            L222,106 Z
+          " fill="#3A7D44" opacity="0.85"/>
+
+          <!-- Greenland -->
+          <path d="M315,90 L332,88 L348,92 L358,102 L355,115 L342,122 L328,118 L318,108 L312,98 Z"
+            fill="#4A8F55" opacity="0.7"/>
+
+          <!-- EUROPE -->
+          <path d="
+            M318,130 L328,125 L340,122 L352,125
+            L360,132 L365,142 L362,152
+            L355,158 L348,162 L352,170
+            L358,175 L362,168 L368,162
+            L375,158 L380,165 L378,175
+            L372,182 L365,188 L358,192
+            L350,195 L342,192 L335,185
+            L328,180 L322,172 L318,162
+            L315,150 L318,140 Z
+          " fill="#4A8F55" opacity="0.85"/>
+
+          <!-- Scandinavia -->
+          <path d="M330,108 L340,105 L348,110 L345,122 L335,120 L328,115 Z" fill="#4A8F55" opacity="0.8"/>
+          <path d="M340,105 L350,102 L358,108 L355,118 L347,115 Z" fill="#4A8F55" opacity="0.8"/>
+
+          <!-- AFRICA -->
+          <path d="
+            M338,188 L352,185 L365,188
+            L375,195 L382,208 L385,222
+            L382,238 L378,252 L375,268
+            L370,282 L365,295 L358,308
+            L350,318 L342,322 L335,318
+            L328,308 L322,295 L318,280
+            L315,265 L313,250 L315,235
+            L318,220 L322,208 L328,198
+            L332,192 Z
+          " fill="#5A9E60" opacity="0.88"/>
+
+          <!-- Madagascar -->
+          <path d="M388,268 L395,262 L400,270 L398,285 L392,290 L387,282 Z" fill="#4A8F55" opacity="0.75"/>
+
+          <!-- ASIA (large landmass) -->
+          <path d="
+            M370,122 L385,115 L400,112 L420,110
+            L438,112 L452,118 L462,128
+            L468,140 L472,155 L468,168
+            L462,178 L455,185 L460,195
+            L465,205 L468,218 L465,230
+            L458,240 L450,248 L442,255
+            L435,262 L428,268 L420,272
+            L412,275 L405,270 L398,262
+            L392,255 L388,245 L390,232
+            L395,220 L398,208 L395,198
+            L388,190 L382,182 L378,172
+            L375,162 L372,150 L370,138 Z
+          " fill="#4A8F55" opacity="0.88"/>
+
+          <!-- Indian subcontinent -->
+          <path d="M415,228 L428,225 L438,232 L440,248 L435,262 L425,270 L415,268 L408,258 L406,242 L410,232 Z"
+            fill="#5AA066" opacity="0.85"/>
+
+          <!-- Southeast Asia / Indonesia hints -->
+          <path d="M448,260 L458,255 L465,262 L462,272 L452,275 L445,268 Z" fill="#4A8F55" opacity="0.7"/>
+          <path d="M462,265 L472,260 L478,268 L475,278 L465,280 L458,272 Z" fill="#4A8F55" opacity="0.65"/>
+
+          <!-- Japan -->
+          <path d="M468,155 L476,150 L482,158 L478,168 L470,168 L465,160 Z" fill="#4A8F55" opacity="0.75"/>
+
+          <!-- SOUTH AMERICA -->
+          <path d="
+            M248,270 L260,265 L272,268
+            L280,278 L285,292 L282,308
+            L278,322 L272,335 L265,348
+            L258,358 L250,362 L242,358
+            L235,348 L230,335 L228,320
+            L228,305 L232,290 L238,278 Z
+          " fill="#5AA066" opacity="0.87"/>
+
+          <!-- AUSTRALIA -->
+          <path d="
+            M428,295 L445,290 L460,292
+            L472,300 L478,312 L475,325
+            L468,335 L455,340 L442,338
+            L430,330 L422,318 L420,305 Z
+          " fill="#5AA066" opacity="0.85"/>
+          <!-- Tasmania -->
+          <path d="M452,345 L460,342 L464,350 L458,356 L450,352 Z" fill="#4A8F55" opacity="0.7"/>
+
+          <!-- NEW ZEALAND -->
+          <path d="M492,330 L498,325 L503,332 L500,342 L493,342 Z" fill="#4A8F55" opacity="0.65"/>
+          <path d="M495,316 L501,312 L505,320 L502,328 L495,326 Z" fill="#4A8F55" opacity="0.65"/>
+
+          <!-- Ice caps (white) -->
+          <!-- Arctic -->
+          <ellipse cx="300" cy="82" rx="90" ry="18" fill="rgba(220,235,255,0.5)"/>
+          <!-- Antarctic -->
+          <ellipse cx="300" cy="368" rx="110" ry="20" fill="rgba(220,235,255,0.45)"/>
+
+          <!-- Globe shine overlay -->
+          <circle cx="300" cy="225" r="155" fill="url(#shineGrad)"/>
+        </g>
+
+        <!-- Atmosphere glow circle -->
+        <circle cx="300" cy="225" r="155" fill="url(#atmosphereGrad)"/>
+        <!-- Globe border -->
+        <circle cx="300" cy="225" r="155" fill="none" stroke="rgba(100,160,255,0.25)" stroke-width="1.5"/>
+
+        <!-- Connection lines between avatars and globe -->
+        <line x1="100" y1="125" x2="248" y2="175" stroke="rgba(232,184,109,0.5)" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="500" y1="135" x2="392" y2="178" stroke="rgba(194,112,74,0.5)" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="118" y1="345" x2="240" y2="285" stroke="rgba(42,124,118,0.55)" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="480" y1="348" x2="400" y2="290" stroke="rgba(232,184,109,0.5)" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="300" y1="60" x2="300" y2="145" stroke="rgba(194,112,74,0.45)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+        <!-- Animated dots traveling along connection lines -->
+        <circle r="3" fill="#E8B86D" opacity="0.9">
+          <animateMotion dur="2.5s" repeatCount="indefinite" path="M100,125 L248,175"/>
+        </circle>
+        <circle r="3" fill="#C2704A" opacity="0.9">
+          <animateMotion dur="2.8s" repeatCount="indefinite" path="M500,135 L392,178"/>
+        </circle>
+        <circle r="3" fill="#2A7C76" opacity="0.9">
+          <animateMotion dur="3s" repeatCount="indefinite" path="M118,345 L240,285"/>
+        </circle>
+
+        <!-- Avatar 1 — top left: Tokyo -->
+        <circle cx="100" cy="125" r="26" fill="#1E3050"/>
+        <circle cx="100" cy="125" r="26" fill="none" stroke="rgba(232,184,109,0.7)" stroke-width="2"/>
+        <circle cx="100" cy="117" r="9" fill="#E8B86D"/>
+        <path d="M82,143 Q100,134 118,143 L118,150 Q100,141 82,150 Z" fill="#E8B86D" opacity="0.9"/>
+        <text x="100" y="168" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-weight="500">Tokyo</text>
+
+        <!-- Avatar 2 — top right: Lagos -->
+        <circle cx="500" cy="135" r="26" fill="#1E3050"/>
+        <circle cx="500" cy="135" r="26" fill="none" stroke="rgba(194,112,74,0.7)" stroke-width="2"/>
+        <circle cx="500" cy="127" r="9" fill="#C2704A"/>
+        <path d="M482,153 Q500,144 518,153 L518,160 Q500,151 482,160 Z" fill="#C2704A" opacity="0.9"/>
+        <text x="500" y="178" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-weight="500">Lagos</text>
+
+        <!-- Avatar 3 — bottom left: São Paulo -->
+        <circle cx="118" cy="345" r="26" fill="#1E3050"/>
+        <circle cx="118" cy="345" r="26" fill="none" stroke="rgba(42,124,118,0.75)" stroke-width="2"/>
+        <circle cx="118" cy="337" r="9" fill="#2A7C76"/>
+        <path d="M100,363 Q118,354 136,363 L136,370 Q118,361 100,370 Z" fill="#2A7C76" opacity="0.9"/>
+        <text x="118" y="388" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-weight="500">São Paulo</text>
+
+        <!-- Avatar 4 — bottom right: Mumbai -->
+        <circle cx="480" cy="348" r="26" fill="#1E3050"/>
+        <circle cx="480" cy="348" r="26" fill="none" stroke="rgba(232,184,109,0.7)" stroke-width="2"/>
+        <circle cx="480" cy="340" r="9" fill="#E8B86D"/>
+        <path d="M462,366 Q480,357 498,366 L498,373 Q480,364 462,373 Z" fill="#E8B86D" opacity="0.9"/>
+        <text x="480" y="391" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-weight="500">Mumbai</text>
+
+        <!-- Avatar 5 — top center: Stockholm -->
+        <circle cx="300" cy="55" r="23" fill="#1E3050"/>
+        <circle cx="300" cy="55" r="23" fill="none" stroke="rgba(194,112,74,0.65)" stroke-width="2"/>
+        <circle cx="300" cy="48" r="8" fill="#C2704A"/>
+        <path d="M283,66 Q300,58 317,66 L317,73 Q300,65 283,73 Z" fill="#C2704A" opacity="0.9"/>
+        <text x="300" y="96" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-weight="500">Stockholm</text>
+
+        <!-- Pulse rings on globe center -->
+        <circle cx="300" cy="225" r="20" fill="none" stroke="rgba(232,184,109,0.35)" stroke-width="1.5">
+          <animate attributeName="r" from="12" to="45" dur="2.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" from="0.6" to="0" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="300" cy="225" r="10" fill="rgba(232,184,109,0.7)"/>
+        <text x="300" y="229" text-anchor="middle" font-size="9" fill="white">✈</text>
+      </svg>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- TAGLINE / ABOUT -->
+<section class="tagline-section">
+  <h2>Travel was never meant to be<br><em>done alone — or expensive.</em></h2>
+  <p>
+    Every day, thousands of people dream of the same destinations but travel separately, paying full price for everything. BookTogether flips that script. Match with like-minded travelers, split accommodation and transport costs, and turn strangers into lifelong travel companions — all before you even pack your bag.
+  </p>
+</section>
+
+<!-- STEPS -->
+<section class="steps-section" id="how-it-works">
+  <div class="steps-header">
+    <span class="label">How it works</span>
+    <h2>Four steps to your next adventure</h2>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num"><span class="step-icon">🗺️</span></div>
+      <h3>Choose your destination</h3>
+      <p>Pick anywhere on the map — from Bali to Buenos Aires. Set your travel dates and budget, and let BookTogether get to work.</p>
+    </div>
+    <div class="step">
+      <div class="step-num"><span class="step-icon">🤝</span></div>
+      <h3>Get matched with travellers</h3>
+      <p>Our smart matching pairs you with compatible travelers heading to the same place, same time — based on vibe, interests, and travel style.</p>
+    </div>
+    <div class="step">
+      <div class="step-num"><span class="step-icon">💬</span></div>
+      <h3>Connect and plan together</h3>
+      <p>Chat, co-plan itineraries, vote on activities, and build excitement together in your shared trip workspace before departure.</p>
+    </div>
+    <div class="step">
+      <div class="step-num"><span class="step-icon">💰</span></div>
+      <h3>Book and save money</h3>
+      <p>Book shared accommodation, transport, and experiences directly through BookTogether — and watch the savings roll in. Split fairly, automatically.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 BookTogether. Built for explorers, dreamers, and budget warriors.
+</footer>
+
+</body>
+</html>
