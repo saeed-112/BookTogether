@@ -35,27 +35,128 @@
   }
   .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: var(--terracotta);
     letter-spacing: -0.5px;
   }
   .logo span { color: var(--teal); font-style: italic; }
+
   .nav-cta {
     font-size: 0.85rem;
     font-weight: 600;
     color: white;
-    text-decoration: none;
     background: var(--teal);
+    border: none;
+    cursor: pointer;
     padding: 0.55rem 1.4rem;
     border-radius: 100px;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     box-shadow: 0 4px 16px rgba(42,124,118,0.35);
     letter-spacing: 0.3px;
+    font-family: 'DM Sans', sans-serif;
   }
   .nav-cta:hover {
     background: #226660;
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(42,124,118,0.45);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(10,14,26,0.6);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .modal-box {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 2.5rem 2.2rem 2rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 1rem;
+    box-shadow: 0 24px 80px rgba(10,14,26,0.3);
+    position: relative;
+    animation: modalUp 0.25s ease;
+  }
+  @keyframes modalUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1.2rem;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.3rem; color: rgba(26,26,46,0.35);
+    line-height: 1; transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--deep); }
+  .modal-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    letter-spacing: -0.4px;
+    margin-bottom: 0.5rem;
+  }
+  .modal-box h3 em { color: var(--terracotta); font-style: italic; }
+  .modal-box p {
+    font-size: 0.85rem;
+    color: rgba(26,26,46,0.55);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .modal-box input[type="email"] {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.1rem;
+    border-radius: 12px;
+    border: 1.5px solid rgba(42,124,118,0.3);
+    background: white;
+    color: var(--deep);
+    outline: none;
+    margin-bottom: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .modal-box input[type="email"]::placeholder { color: rgba(26,26,46,0.35); }
+  .modal-box input[type="email"]:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(42,124,118,0.12);
+  }
+  .modal-submit {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    background: var(--teal);
+    border: none;
+    cursor: pointer;
+    padding: 0.8rem;
+    border-radius: 12px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(42,124,118,0.3);
+  }
+  .modal-submit:hover { background: #226660; transform: translateY(-1px); }
+  .modal-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .modal-success {
+    display: none;
+    text-align: center;
+    padding: 1rem 0 0.5rem;
+  }
+  .modal-success .tick { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .modal-success h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; margin-bottom: 0.4rem;
+  }
+  .modal-success p { font-size: 0.85rem; color: rgba(26,26,46,0.5); margin: 0; }
+  .modal-error {
+    display: none;
+    font-size: 0.8rem;
+    color: #C2704A;
+    margin-top: -0.4rem;
+    margin-bottom: 0.7rem;
   }
 
   /* HERO */
@@ -327,8 +428,132 @@
 <!-- NAV -->
 <nav>
   <div class="logo">Book<span>Together</span></div>
-  <a href="#waitlist" class="nav-cta">Join the waitlist →</a>
+  <button class="nav-cta" onclick="document.getElementById('waitlist-modal').classList.add('open')">Join the waitlist →</button>
 </nav>
+
+<!-- WAITLIST MODAL -->
+<div class="modal-overlay" id="waitlist-modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Be the first to<br><em>BookTogether</em></h3>
+    <p style="font-size:0.85rem;color:rgba(26,26,46,0.55);line-height:1.6;margin-bottom:1.5rem;">Drop your email and we'll notify you the moment we launch. No spam, ever.</p>
+
+    <!-- MailerLite embedded form -->
+    <style type="text/css">
+      /* Scoped overrides to match page design */
+      #mlb2-37384754.ml-form-embedContainer { box-sizing: border-box; display: block; width: 100% !important; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedWrapper { background: transparent !important; display: block !important; width: 100% !important; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedWrapper.embedForm { max-width: 100%; width: 100%; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedBody { padding: 0 !important; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedContent { display: none !important; } /* hide MailerLite's own title — we use ours above */
+      #mlb2-37384754.ml-form-embedContainer .ml-form-fieldRow input {
+        background-color: #ffffff !important;
+        border: 1.5px solid rgba(42,124,118,0.3) !important;
+        border-radius: 12px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 0.9rem !important;
+        padding: 0.75rem 1.1rem !important;
+        color: #1A1A2E !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-fieldRow input:focus {
+        border-color: #2A7C76 !important;
+        box-shadow: 0 0 0 3px rgba(42,124,118,0.12) !important;
+        outline: none !important;
+      }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedSubmit { margin: 0.9rem 0 0 0 !important; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedSubmit button.primary {
+        background-color: #2A7C76 !important;
+        border-radius: 12px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: #ffffff !important;
+        padding: 0.8rem !important;
+        width: 100% !important;
+        box-shadow: 0 4px 16px rgba(42,124,118,0.3) !important;
+        transition: background 0.2s, transform 0.2s !important;
+        cursor: pointer !important;
+      }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-embedSubmit button.primary:hover {
+        background-color: #226660 !important;
+        transform: translateY(-1px) !important;
+      }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-successBody { padding: 0 !important; }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-successContent h4 {
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.2rem !important;
+        color: #1A1A2E !important;
+        text-align: center !important;
+        margin-bottom: 0.4rem !important;
+      }
+      #mlb2-37384754.ml-form-embedContainer .ml-form-successContent p {
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 0.85rem !important;
+        color: rgba(26,26,46,0.55) !important;
+        text-align: center !important;
+      }
+    </style>
+
+    <div id="mlb2-37384754" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-37384754">
+      <div class="ml-form-align-center">
+        <div class="ml-form-embedWrapper embedForm">
+          <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+            <div class="ml-form-embedContent"><h4></h4><p>Get early access when we launch.</p></div>
+            <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2126839/forms/179850918547686871/subscribe" data-code="" method="post" target="_blank">
+              <div class="ml-form-formContent">
+                <div class="ml-form-fieldRow ml-last-item">
+                  <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                    <input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="your@email.com" autocomplete="email">
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="ml-submit" value="1">
+              <div class="ml-form-embedSubmit">
+                <button type="submit" class="primary">Count me in →</button>
+                <button disabled="disabled" style="display:none;" type="button" class="loading">
+                  <div class="ml-form-embedSubmitLoad"></div>
+                  <span class="sr-only">Loading...</span>
+                </button>
+              </div>
+              <input type="hidden" name="anticsrf" value="true">
+            </form>
+          </div>
+          <div class="ml-form-successBody row-success" style="display:none; text-align:center; padding: 1rem 0;">
+            <div style="font-size:2.5rem; margin-bottom:0.75rem;">🎉</div>
+            <div class="ml-form-successContent">
+              <h4>You're on the list!</h4>
+              <p>We'll email you when BookTogether is ready.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function ml_webform_success_37384754() {
+        var $ = ml_jQuery || jQuery;
+        $('.ml-subscribe-form-37384754 .row-success').show();
+        $('.ml-subscribe-form-37384754 .row-form').hide();
+      }
+    </script>
+    <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
+    <script>fetch("https://assets.mailerlite.com/jsonp/2126839/forms/179850918547686871/takel")</script>
+  </div>
+</div>
+
+<script>
+  function closeModal() {
+    document.getElementById('waitlist-modal').classList.remove('open');
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
 
 <!-- HERO -->
 <section class="hero">
