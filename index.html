@@ -390,6 +390,217 @@
     font-weight: 300;
   }
 
+  /* ABOUT */
+  .about-section {
+    padding: 8rem 3rem;
+    background: var(--sand);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-section::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(194,112,74,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-section::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,124,118,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 6rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .about-portrait {
+    position: relative;
+  }
+  .about-portrait-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 32px 32px 32px 8px;
+    background: linear-gradient(145deg, var(--teal) 0%, #1A5550 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(26,26,46,0.15);
+  }
+  .about-portrait-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 40% 30%, rgba(232,184,109,0.2) 0%, transparent 60%);
+  }
+  .about-portrait-initials {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: -2px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    line-height: 1;
+  }
+  .about-portrait-label {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .about-accent-card {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    background: white;
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 8px 32px rgba(26,26,46,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .about-accent-card .ac-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--terracotta);
+    line-height: 1;
+  }
+  .about-accent-card .ac-label {
+    font-size: 0.72rem;
+    color: rgba(26,26,46,0.45);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .about-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    display: block;
+  }
+  .about-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-top: 0.25rem;
+  }
+  .about-content h2 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .about-content .about-body {
+    font-size: 0.975rem;
+    line-height: 1.85;
+    color: rgba(26,26,46,0.65);
+    font-weight: 300;
+  }
+  .about-content .about-body + .about-body {
+    margin-top: -0.5rem;
+  }
+  .about-divider {
+    width: 3rem;
+    height: 2px;
+    background: linear-gradient(to right, var(--terracotta), var(--gold));
+    border-radius: 2px;
+    margin: 0.25rem 0;
+  }
+  .about-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+  .about-pill {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--teal);
+    background: rgba(42,124,118,0.1);
+    border: 1px solid rgba(42,124,118,0.2);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    letter-spacing: 0.2px;
+  }
+  .about-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  .about-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    background: var(--terracotta);
+    border: none;
+    cursor: pointer;
+    padding: 0.7rem 1.6rem;
+    border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(194,112,74,0.35);
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.2px;
+  }
+  .about-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(194,112,74,0.45);
+  }
+  .about-social-link {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(26,26,46,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .about-social-link:hover { color: var(--teal); }
+
+  @media (max-width: 768px) {
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .about-portrait-frame {
+      aspect-ratio: 4/3;
+      border-radius: 24px;
+    }
+    .about-section { padding: 5rem 1.5rem; }
+  }
+
   /* FOOTER */
   footer {
     text-align: center;
@@ -566,6 +777,7 @@
     <div class="cta-row">
       <button class="btn-primary">Start exploring →</button>
       <button class="btn-ghost" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">See how it works ↓</button>
+      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Meet the founders ↓</button>
     </div>
   </div>
 
@@ -864,6 +1076,48 @@
       <h3>Book and save money</h3>
       <p>Book shared accommodation, transport, and experiences directly through BookTogether — and watch the savings roll in. Split fairly, automatically.</p>
     </div>
+  </div>
+</section>
+
+<!-- ABOUT THE FOUNDER -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+
+    <!-- Portrait column -->
+    <div class="about-portrait">
+      <div class="about-portrait-frame">
+        <div class="about-portrait-initials">YN</div>
+        <div class="about-portrait-label">Founder</div>
+      </div>
+
+    </div>
+
+    <!-- Text column -->
+    <div class="about-content">
+      <span class="about-label">👋 Behind BookTogether</span>
+      <h2>Hi, I'm [Your Name] —<br><em>a solo traveler</em> who got tired<br>of going it alone.</h2>
+
+      <div class="about-divider"></div>
+
+      <p class="about-body">
+        I've spent the last decade hopping between continents with a backpack and a tight budget. Along the way I kept bumping into the same problem: I'd meet incredible people at the hostel who were heading to the exact same place the next day — but we'd each book separate rooms, separate transport, and pay full price for everything. It felt absurd.
+      </p>
+      <p class="about-body">
+        BookTogether is my answer to that. I started building it because I genuinely believe that travel is better shared — not just for your wallet, but for the stories you come home with. This isn't a faceless startup. It's something I'm building for the kind of traveler I am, and the kind of connections I know are possible when we stop doing everything alone.
+      </p>
+
+      <div class="about-pills">
+        <span class="about-pill">🗺️ Backpacker at heart</span>
+        <span class="about-pill">💡 Indie builder</span>
+        <span class="about-pill">✈️ Stockholm-based</span>
+        <span class="about-pill">🤝 Community-first</span>
+      </div>
+
+      <div class="about-cta-row">
+        <a class="about-social-link" href="#" target="_blank">LinkedIn ↗</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
